@@ -8,48 +8,50 @@ var body = DOM.body, div = DOM.div, script = DOM.script
 var App = React.createFactory(require('./App'))
 
 var BUNDLE = null
-
+var fetch = require("node-fetch");
 
 http.createServer(function(req, res) {
 
   if (req.url === '/') {
 
     res.setHeader('Content-Type', 'text/html; charset=utf-8')
+    fetch('https://api.tvmaze.com/search/shows?q=batman')
+    .then(res => res.json())
+    .then(json => {
+
+      var props = {
+        items: json,
+      }
+
+      var html = ReactDOMServer.renderToStaticMarkup(body(null,
 
 
-    var props = {
-      items: [
-        'Item 0',
-        'Item 1'
-      ],
-    }
+        div({
+          id: 'content',
+          dangerouslySetInnerHTML: {__html: ReactDOMServer.renderToString(App(props))},
+        }),
 
 
-    var html = ReactDOMServer.renderToStaticMarkup(body(null,
+        script({
+          dangerouslySetInnerHTML: {__html: 'var APP_PROPS = ' + JSON.stringify(props) + ';'},
+        }),
 
 
-      div({
-        id: 'content',
-        dangerouslySetInnerHTML: {__html: ReactDOMServer.renderToString(App(props))},
-      }),
+        script({src: 'https://cdn.jsdelivr.net/npm/react@16.3.1/umd/react.production.min.js'}),
+        script({src: 'https://cdn.jsdelivr.net/npm/react-dom@16.3.1/umd/react-dom.production.min.js'}),
+        script({src: 'https://cdn.jsdelivr.net/npm/react-dom-factories@1.0.2/index.min.js'}),
+        script({src: 'https://cdn.jsdelivr.net/npm/create-react-class@15.6.3/create-react-class.min.js'}),
 
 
-      script({
-        dangerouslySetInnerHTML: {__html: 'var APP_PROPS = ' + JSON.stringify(props) + ';'},
-      }),
+        script({src: '/bundle.js'})
+      ))
+
+      // Return the page to the browser
+      res.end(html)
 
 
-      script({src: 'https://cdn.jsdelivr.net/npm/react@16.3.1/umd/react.production.min.js'}),
-      script({src: 'https://cdn.jsdelivr.net/npm/react-dom@16.3.1/umd/react-dom.production.min.js'}),
-      script({src: 'https://cdn.jsdelivr.net/npm/react-dom-factories@1.0.2/index.min.js'}),
-      script({src: 'https://cdn.jsdelivr.net/npm/create-react-class@15.6.3/create-react-class.min.js'}),
+    });
 
-
-      script({src: '/bundle.js'})
-    ))
-
-    // Return the page to the browser
-    res.end(html)
 
   } else if (req.url === '/bundle.js') {
 

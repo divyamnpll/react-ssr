@@ -24,7 +24,7 @@ module.exports = createReactClass({
       div({onClick: this.handleClick}, 'Click here'),
 
       ul({children: (this.state.items || []).map(function(item) {
-        return li(null, item)
+        return li(null, item.show.name)
       })})
 
     )
