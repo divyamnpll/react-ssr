@@ -1,0 +1,27 @@
+{
+  "name": "react-ssr",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/divyamnpll/react-ssr.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/divyamnpll/react-ssr/issues"
+  },
+  "dependencies": {
+    "browserify": "^16.1.1",
+    "create-react-class": "^15.6.3",
+    "literalify": "^0.4.0",
+    "react": "^16.3.1",
+    "react-dom": "^16.3.1",
+    "react-dom-factories": "^1.0.2"
+  },
+  "homepage": "https://github.com/divyamnpll/react-ssr#readme"
+}
